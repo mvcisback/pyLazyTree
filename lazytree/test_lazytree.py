@@ -23,7 +23,7 @@ def test_map():
 
     for c1, c2 in zip(tree.children, tree2.children):
         assert c1.view() == c2.view()
-    
+
     assert tree.with_identity_view().view() == (0, 1)
 
 
@@ -33,7 +33,7 @@ def assert_contracting(elems):
         assert 0 <= size <= max_size
         max_size = size
 
-    assert max_size < 0.5    
+    assert max_size < 0.5
 
 
 def test_bfs():
@@ -48,4 +48,3 @@ def test_cost_guided_traversal():
     sizes1 = fn.take(5, tree.cost_guided_traversal(lambda x: x))
     sizes2 = fn.take(5, tree.bfs())
     assert sizes1 == sizes2
-
