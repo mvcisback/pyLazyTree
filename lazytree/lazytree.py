@@ -38,3 +38,6 @@ class LazyTree:
             for c in curr.children:
                 cost = -cost_map(c.view())
                 heappush(queue, (cost, c))
+
+    def with_identity_view(self):
+        return attr.evolve(self, view=lambda x: x)

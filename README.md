@@ -8,7 +8,7 @@ Example: Binary tree representing the recursive subdivision of the
 interval [0, 1].
 
 ```python
-import lazytree
+from lazytree import LazyTree
 
 def split(itvl):
     lo, hi = itvl
