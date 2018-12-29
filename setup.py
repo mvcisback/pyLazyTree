@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='lazytree',
-    version='0.1',
+    version='0.1.0',
     description='TODO',
     url='https://github.com/mvcisback/pyLazyTree',
     author='Marcell Vazquez-Chanlatte',
