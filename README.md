@@ -1,3 +1,10 @@
+[![Build Status](https://travis-ci.org/mvcisback/pyLazyTree.svg?branch=master)](https://travis-ci.org/mvcisback/pyLazyTree)
+[![codecov](https://codecov.io/gh/mvcisback/DiscreteSignals/branch/master/graph/badge.svg)](https://codecov.io/gh/mvcisback/pyLazyTree)
+
+
+[![PyPI version](https://badge.fury.io/py/lazytree.svg)](https://badge.fury.io/py/lazytree)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A `LazyTree` is a triple, `(root, child_map, view)` where `root : A`
 and a child map, `child_map`, which maps `a` to a (finite) list of
 children `child_map : A -> List[A]` define the tree's structure and
