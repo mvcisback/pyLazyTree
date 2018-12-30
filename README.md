@@ -44,23 +44,23 @@ assert subtrees[0].view() == 0.5
 # Breadth First Search through tree.
 ## Note: calls .view() before returning. 
 itvls = tree.bfs()  # returns a generator.
-avgs = tree2.bfs()  # returns a generator.
+sizes = tree2.bfs()  # returns a generator.
 
 assert next(itvls) == (0, 1)
-assert next(avgs) == 1
+assert next(sizes) == 1
 
 assert next(itvls) == (0, 0.5)
-assert next(avgs) == 0.5
+assert next(sizes) == 0.5
 
 assert next(itvls) == (0.5, 1)
-assert next(avgs) == 0.5
+assert next(sizes) == 0.5
 
 # Cost guided traversal.
 ## Note: Smaller means higher priority.
-avgs = tree2.cost_guided_refinement(cost=lambda x: x)
-assert next(itvls)  == 1  # (0, 1)
-assert next(itvls)  == 0.5  # (0, 0.5)
-assert next(itvls)  == 0.25  # (0, 0.25)
+sizes = tree2.cost_guided_refinement(cost=lambda x: x)
+assert next(sizes)  == 1  # (0, 1)
+assert next(sizes)  == 0.5  # (0, 0.5)
+assert next(sizes)  == 0.25  # (0, 0.25)
 
 # Note, you can reset the current view.
 tree3 = tree2.with_identity_view()
