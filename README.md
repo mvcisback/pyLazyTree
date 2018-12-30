@@ -11,7 +11,9 @@ children `child_map : A -> List[A]` define the tree's structure and
 `view : A -> B` defines what the tree represents. The default view is
 the identity map, `lambda x: x`.
 
-Example: Binary tree representing the recursive subdivision of the
+This structure is useful for modeling infinite (or really large) trees
+where only a finite number of nodes need to be accessed. For example,
+the following Binary tree represents the recursive subdivision of the
 interval [0, 1].
 
 ```python
@@ -27,10 +29,40 @@ tree = LazyTree(
     child_map=split  # Itvl -> [Itvl]
 )
 
-tree.map(lambda itvl: sum(itvl) / 2)  # Change view to average itvl.
+# View the current root.
+assert tree.view() == tree.root
 
-tree2 = LazyTree(
-    root=(2, 3),  # Initial Itvl
-    child_map=split  # Itvl -> [Itvl]
-)
+tree2 = tree.map(lambda itvl: itvl[1] - itvl[0])  # Change view to itvl size.
+assert tree2.view() == 1
+
+# Access the root's subtrees
+subtrees = tree2.children
+assert len(subtrees) == 2
+assert subtrees[0].root == (0, 0.5)
+assert subtrees[0].view() == 0.5
+
+# Breadth First Search through tree.
+## Note: calls .view() before returning. 
+itvls = tree.bfs()  # returns a generator.
+avgs = tree2.bfs()  # returns a generator.
+
+assert next(itvls) == (0, 1)
+assert next(avgs) == 1
+
+assert next(itvls) == (0, 0.5)
+assert next(avgs) == 0.5
+
+assert next(itvls) == (0.5, 1)
+assert next(avgs) == 0.5
+
+# Cost guided traversal.
+## Note: Smaller means higher priority.
+avgs = tree2.cost_guided_refinement(cost=lambda x: x)
+assert next(itvls)  == 1  # (0, 1)
+assert next(itvls)  == 0.5  # (0, 0.5)
+assert next(itvls)  == 0.25  # (0, 0.25)
+
+# Note, you can reset the current view.
+tree3 = tree2.with_identity_view()
+assert tree3.view() == tree.view()
 ```
