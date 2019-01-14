@@ -52,7 +52,7 @@ def test_cost_guided_traversal():
 
 def test_prune_and_leaves():
     tree = LazyTree(root=(0, 1), child_map=split, view=lambda x: x[1] - x[0])
-    tree2 = tree.prune(lambda x: x <= 0.1)
+    tree2 = tree.prune(isleaf=lambda x: x <= 0.2)
 
     assert [c.view() for c in tree.children] == \
         [c.view() for c in tree2.children]

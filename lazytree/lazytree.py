@@ -10,14 +10,16 @@ class LazyTree:
     root = attr.ib()
     child_map = attr.ib()
     _view = attr.ib(default=lambda x: x)
-    _prune = attr.ib(default=lambda _: False)
+    _isleaf = attr.ib(default=lambda _: False)  # For pruning subtrees.
 
     @property
     @fn.memoize
     def children(self):
+        if self._isleaf(self.view()):
+            return ()
+
         _children = self.child_map(self.root)
-        subtrees = (attr.evolve(self, root=c) for c in _children)
-        return tuple(t for t in subtrees if not self._prune(t.view()))
+        return tuple(attr.evolve(self, root=c) for c in _children)
 
     def view(self):
         return self._view(self.root)
@@ -25,10 +27,10 @@ class LazyTree:
     def map(self, func):
         return attr.evolve(self, view=fn.compose(func, self._view))
 
-    def prune(self, pred):
+    def prune(self, isleaf):
         """Return a new LazyTree where child nodes satisfying
-        pred are have their subtrees pruned."""
-        return attr.evolve(self, prune=lambda x: self._prune(x) or pred(x))
+        isleaf have their subtrees pruned."""
+        return attr.evolve(self, isleaf=lambda x: self._isleaf(x) or isleaf(x))
 
     def with_identity_view(self):
         return attr.evolve(self, view=lambda x: x)
