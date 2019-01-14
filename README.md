@@ -65,4 +65,12 @@ assert next(sizes)  == 0.25  # (0, 0.25)
 # Note, you can reset the current view.
 tree3 = tree2.with_identity_view()
 assert tree3.view() == tree.view()
+
+# Prune subtrees with a root of size less than 0.1.
+tree4 = tree2.prune(lambda s: s < 0.1)
+sizes = tree.bfs()
+assert all(s < 0.1 for s in sizes)  # Note that sizes is now finite.
+
+# Compute leafs of tree. Careful! Could be infinite!
+assert len(list(tree4.leaves())) == 8
 ```

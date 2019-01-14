@@ -10,12 +10,14 @@ class LazyTree:
     root = attr.ib()
     child_map = attr.ib()
     _view = attr.ib(default=lambda x: x)
+    _prune = attr.ib(default=lambda _: False)
 
     @property
     @fn.memoize
     def children(self):
         _children = self.child_map(self.root)
-        return tuple(attr.evolve(self, root=c) for c in _children)
+        subtrees = (attr.evolve(self, root=c) for c in _children)
+        return tuple(t for t in subtrees if not self._prune(t.view()))
 
     def view(self):
         return self._view(self.root)
@@ -23,12 +25,34 @@ class LazyTree:
     def map(self, func):
         return attr.evolve(self, view=fn.compose(func, self._view))
 
+    def prune(self, pred):
+        """Return a new LazyTree where child nodes satisfying
+        pred are have their subtrees pruned."""
+        return attr.evolve(self, prune=lambda x: self._prune(x) or pred(x))
+
+    def with_identity_view(self):
+        return attr.evolve(self, view=lambda x: x)
+
+    # Traversals
+
     def bfs(self):
         queue = deque([self])
         while len(queue) > 0:
             curr = queue.pop()
             yield curr.view()
             queue.extendleft(curr.children)
+
+    def leaves(self, *, max_depth=float('inf')):
+        stack, depth = [self], 0
+        while len(stack) > 0:
+            assert depth <= max_depth, 'Max depth exceeded.'
+            depth += 1
+
+            curr = stack.pop()
+            if len(curr.children) == 0:
+                yield curr.view()
+            else:
+                stack.extend(curr.children)
 
     def cost_guided_traversal(self, cost_map):
         queue = [(-cost_map(self.view()), self)]
@@ -38,6 +62,3 @@ class LazyTree:
             for c in curr.children:
                 cost = -cost_map(c.view())
                 heappush(queue, (cost, c))
-
-    def with_identity_view(self):
-        return attr.evolve(self, view=lambda x: x)

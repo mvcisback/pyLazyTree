@@ -48,3 +48,14 @@ def test_cost_guided_traversal():
     sizes1 = fn.take(5, tree.cost_guided_traversal(lambda x: x))
     sizes2 = fn.take(5, tree.bfs())
     assert sizes1 == sizes2
+
+
+def test_prune_and_leaves():
+    tree = LazyTree(root=(0, 1), child_map=split, view=lambda x: x[1] - x[0])
+    tree2 = tree.prune(lambda x: x <= 0.1)
+
+    assert [c.view() for c in tree.children] == \
+        [c.view() for c in tree2.children]
+
+    assert all(c >= 0.1 for c in tree2.leaves())
+    assert len(list(tree2.leaves())) == 8
