@@ -12,10 +12,12 @@ class LazyTree:
     _view = attr.ib(default=lambda x: x)
     _isleaf = attr.ib(default=lambda _: False)  # For pruning subtrees.
 
+    def isleaf(self):
+        return self._isleaf(self.view())
+
     @property
-    @fn.memoize
     def children(self):
-        if self._isleaf(self.view()):
+        if self.isleaf():
             return ()
 
         _children = self.child_map(self.root)
