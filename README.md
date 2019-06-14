@@ -28,10 +28,27 @@ tree = LazyTree(
     root=(0, 1),  # Initial Itvl
     child_map=split  # Itvl -> [Itvl]
 )
+```
 
+Conceptually a `LazyTree` object can be thought of as containing the pieces of data.
+
+1. The `root` of the tree.
+2. The data represented by the `root`, accessed via the `view` method.
+3. The child subtrees - computed using `child_map` and accessed through the `.children` attribute.
+
+For example, in our interval example, each node corresponds to an interval of `(0, 1)` and has two child subtrees.
+
+```python
 # View the current root.
 assert tree.view() == tree.root
 
+subtrees = tree.children
+assert len(subtrees) == 2
+```
+
+Often, for each node in a tree, one is interested in computing a particular function. This can be done using the `map` and `view` methods. For example, below `map` each interval in the tree to it's size. This results in a new `LazyTree` object.
+
+```python
 tree2 = tree.map(lambda itvl: itvl[1] - itvl[0])  # Change view to itvl size.
 assert tree2.view() == 1
 
@@ -40,7 +57,11 @@ subtrees = tree2.children
 assert len(subtrees) == 2
 assert subtrees[0].root == (0, 0.5)
 assert subtrees[0].view() == 0.5
+```
 
+Travesals of a `LazyTree` object are also implemented. For example,
+
+```python
 # Breadth First Search through tree.
 ## Note: calls .view() before returning. 
 itvls = tree.bfs()  # returns a generator.
@@ -65,7 +86,11 @@ assert next(sizes)  == 0.25  # (0, 0.25)
 # Note, you can reset the current view.
 tree3 = tree2.with_identity_view()
 assert tree3.view() == tree.view()
+```
 
+Finally, one can "prune" away subtrees by labeling them as leaf nodes using the `prune` method. If you are sure that the resulting tree is finite (either due to pruning or the provided `child_map`) then one can compute the leaves of the tree.
+
+``
 # Prune subtrees with a root of size less than 0.1.
 tree4 = tree2.prune(isleaf=lambda s: s < 0.2)
 sizes = tree.bfs()
