@@ -105,7 +105,7 @@ assert tree3.view() == tree.view()
 
 Finally, one can "prune" away subtrees by labeling them as leaf nodes using the `prune` method. If you are sure that the resulting tree is finite (either due to pruning or the provided `child_map`) then one can compute the leaves of the tree.
 
-``
+```python
 # Prune subtrees with a root of size less than 0.1.
 tree4 = tree2.prune(isleaf=lambda s: s < 0.2)
 sizes = tree.bfs()
