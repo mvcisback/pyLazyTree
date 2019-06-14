@@ -5,6 +5,21 @@
 [![PyPI version](https://badge.fury.io/py/lazytree.svg)](https://badge.fury.io/py/lazytree)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+# Installation
+
+If you just need to use `lazytree`, you can just run:
+
+`$ pip install lazytree`
+
+For developers, note that this project uses the
+[poetry](https://poetry.eustace.io/) python package/dependency
+management tool. Please familarize yourself with it and then
+run:
+
+`$ poetry install`
+
+# Usage
+
 A `LazyTree` is a triple, `(root, child_map, view)` where `root : A`
 and a child map, `child_map`, which maps `a` to a (finite) list of
 children `child_map : A -> List[A]` define the tree's structure and
