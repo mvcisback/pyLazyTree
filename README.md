@@ -98,6 +98,10 @@ assert next(sizes)  == 1  # (0, 1)
 assert next(sizes)  == 0.5  # (0, 0.5)
 assert next(sizes)  == 0.25  # (0, 0.25)
 
+# Iterative Deepening Depth First Traversal
+sizes = tree2.iddfs(max_depth=3)  # returns a generator.
+assert list(sizes) == [1, 0.5, 0.5, 0.25, 0.25, 0.25, 0.25, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125]
+
 # Note, you can reset the current view.
 tree3 = tree2.with_identity_view()
 assert tree3.view() == tree.view()
@@ -110,6 +114,8 @@ Finally, one can "prune" away subtrees by labeling them as leaf nodes using the 
 tree4 = tree2.prune(isleaf=lambda s: s < 0.2)
 sizes = tree.bfs()
 assert all(s > 0.001 for s in sizes)  # Note that sizes is now finite.
+
+
 
 # Compute leafs of tree. Careful! Could be infinite!
 assert all(s == 0.125 for s in tree4.leaves())
