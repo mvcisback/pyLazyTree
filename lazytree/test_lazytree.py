@@ -41,6 +41,13 @@ def test_bfs():
     assert_contracting(tree.bfs())
 
 
+def test_iddfs():
+    tree = LazyTree(root=(0, 1), child_map=split, view=lambda x: x[1] - x[0])
+    nodes = list(tree.iddfs(max_depth=3))
+    assert_contracting(nodes)
+    assert list(tree.prune(isleaf=lambda s: s < 0.2).bfs()) == nodes
+
+
 def test_cost_guided_traversal():
     tree = LazyTree(root=(0, 1), child_map=split, view=lambda x: x[1] - x[0])
     assert_contracting(tree.cost_guided_traversal(lambda x: -x))

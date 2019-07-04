@@ -46,18 +46,6 @@ class LazyTree:
             yield curr.view()
             queue.extendleft(curr.children)
 
-    def leaves(self, *, max_depth=float('inf')):
-        stack, depth = [self], 0
-        while len(stack) > 0:
-            assert depth <= max_depth, 'Max depth exceeded.'
-            depth += 1
-
-            curr = stack.pop()
-            if len(curr.children) == 0:
-                yield curr.view()
-            else:
-                stack.extend(curr.children)
-
     def cost_guided_traversal(self, cost_map):
         queue = [(-cost_map(self.view()), self)]
         while len(queue) > 0:
@@ -66,3 +54,24 @@ class LazyTree:
             for c in curr.children:
                 cost = -cost_map(c.view())
                 heappush(queue, (cost, c))
+
+    def leaves(self, *, max_depth=float('inf')):
+        stack = [(self, 0)]
+        while len(stack) > 0:
+            curr, depth = stack.pop()
+            if len(curr.children) == 0 or depth >= max_depth:
+                yield curr.view()
+            else:
+                depth += 1
+                stack.extend([(c, depth) for c in curr.children])
+
+    def iddfs(self, max_depth=float('inf'), flatten=True):
+        """Iterative deepening depth-first search."""
+        depth = 0
+        while depth <= max_depth:
+            nodes = self.leaves(max_depth=depth)
+            if flatten:
+                yield from nodes
+            else:
+                yield tuple(nodes)
+            depth += 1
