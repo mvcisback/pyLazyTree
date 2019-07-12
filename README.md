@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/mvcisback/pyLazyTree.svg?branch=master)](https://travis-ci.org/mvcisback/pyLazyTree)
+[![Build Status](https://cloud.drone.io/api/badges/mvcisback/pyLazyTree/status.svg)](https://cloud.drone.io/mvcisback/pyLazyTree)
 [![codecov](https://codecov.io/gh/mvcisback/DiscreteSignals/branch/master/graph/badge.svg)](https://codecov.io/gh/mvcisback/pyLazyTree)
 
 
