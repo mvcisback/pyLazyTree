@@ -1,9 +1,19 @@
+# Lazy Tree
+
 [![Build Status](https://cloud.drone.io/api/badges/mvcisback/pyLazyTree/status.svg)](https://cloud.drone.io/mvcisback/pyLazyTree)
 [![codecov](https://codecov.io/gh/mvcisback/DiscreteSignals/branch/master/graph/badge.svg)](https://codecov.io/gh/mvcisback/pyLazyTree)
-
-
 [![PyPI version](https://badge.fury.io/py/lazytree.svg)](https://badge.fury.io/py/lazytree)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
+**Table of Contents**
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [View the current root.](#view-the-current-root)
+
+<!-- markdown-toc end -->
+
 
 # Installation
 

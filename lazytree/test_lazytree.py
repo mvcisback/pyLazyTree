@@ -42,10 +42,13 @@ def test_bfs():
 
 
 def test_iddfs():
-    tree = LazyTree(root=(0, 1), child_map=split, view=lambda x: x[1] - x[0])
-    nodes = list(tree.iddfs(max_depth=3))
-    assert_contracting(nodes)
-    assert list(tree.prune(isleaf=lambda s: s < 0.2).bfs()) == nodes
+    for randomize in [False, True]:
+        tree = LazyTree(
+            root=(0, 1), child_map=split, view=lambda x: x[1] - x[0]
+        )
+        nodes = list(tree.iddfs(max_depth=3, randomize=True))
+        assert_contracting(nodes)
+        assert list(tree.prune(isleaf=lambda s: s < 0.2).bfs()) == nodes
 
 
 def test_cost_guided_traversal():

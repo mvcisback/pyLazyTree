@@ -1,5 +1,6 @@
 from collections import deque
 from heapq import heappush, heappop
+from random import shuffle
 
 import attr
 import funcy as fn
@@ -55,7 +56,7 @@ class LazyTree:
                 cost = -cost_map(c.view())
                 heappush(queue, (cost, c))
 
-    def leaves(self, *, max_depth=float('inf')):
+    def leaves(self, *, max_depth=float('inf'), randomize=False):
         stack = [(self, 0)]
         while len(stack) > 0:
             curr, depth = stack.pop()
@@ -63,13 +64,16 @@ class LazyTree:
                 yield curr.view()
             else:
                 depth += 1
-                stack.extend([(c, depth) for c in curr.children])
+                succs = [(c, depth) for c in curr.children]
+                if randomize:
+                    shuffle(succs)
+                stack.extend(succs)
 
-    def iddfs(self, max_depth=float('inf'), flatten=True):
+    def iddfs(self, max_depth=float('inf'), flatten=True, randomize=False):
         """Iterative deepening depth-first search."""
         depth = 0
         while depth <= max_depth:
-            nodes = self.leaves(max_depth=depth)
+            nodes = self.leaves(max_depth=depth, randomize=randomize)
             if flatten:
                 yield from nodes
             else:
