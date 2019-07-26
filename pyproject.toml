@@ -4,6 +4,7 @@ version = "0.3.0"
 readme="README.md"
 description = "Python library for manipulating infinite trees."
 authors = ["Marcell Vazquez-Chanlatte <marcell.vc@eecs.berkeley.edu>"]
+repository = "https://github.com/mvcisback/pyLazyTree"
 license = "MIT"
 
 [tool.poetry.dependencies]
