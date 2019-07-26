@@ -10,7 +10,6 @@
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [View the current root.](#view-the-current-root)
 
 <!-- markdown-toc end -->
 
