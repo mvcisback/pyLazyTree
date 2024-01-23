@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lazytree"
-version = "0.3.3"
+version = "0.3.4"
 readme="README.md"
 description = "Python library for manipulating infinite trees."
 authors = ["Marcell Vazquez-Chanlatte <marcell.vc@eecs.berkeley.edu>"]
